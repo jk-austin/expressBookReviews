@@ -9,33 +9,6 @@ const app = express();
 app.use(express.json());
 
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
-
-// Login endpoint
-app.post("/customer/login", function auth(req,res,next){
-    const username = req.body.username;
-    const password = req.body.password;
-
-    // Check if username or password is missing
-    if (!username || !password) {
-        return res.status(400).json({ message: "Error logging in" });
-    }
-
-    // Authenticate user
-    if (authenticatedUser(username, password)) {
-        // Generate JWT access token
-        let accessToken = jwt.sign({
-            data: password
-        }, 'access', { expiresIn: 60 * 60 });
-
-        // Store access token and username in session
-        req.session.authorization = {
-            accessToken, username
-        }
-        return res.status(200).send("User successfully logged in");
-    } else {
-        return res.status(401).json({ message: "Invalid Login. Check username and password" });
-    }
-});
  
 const PORT =5000;
 
