@@ -50,30 +50,39 @@ public_users.post("/register", (req,res) => {
     return res.status(404).json({message: "Unable to register user."});
 });
 
-// Get the book list available in the shop
-public_users.get('/',function (req, res) {
-        // Send JSON response with formatted friends data
+// Get the book list available in the shop (with async/await)
+public_users.get('/', async (req, res) => {
+    try {
+        // Send JSON response with formatted books data
         res.send(JSON.stringify(books, null, 4));
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching books" });
+    }
 });
 
-// Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
-  // Retrieve the ISBN parameter from the request URL and send the corresponding book details
-  const isbn = req.params.isbn;
+// Get book details based on ISBN (with async/await)
+public_users.get('/isbn/:isbn', async (req, res) => {
+    try {
+        // Retrieve the ISBN parameter from the request URL and send the corresponding book details
+        const isbn = req.params.isbn;
 
-  // Find book by searching through all books
-  const book = Object.values(books).find(b => b.isbn === isbn);
+        // Find book by searching through all books
+        const book = Object.values(books).find(b => b.isbn === isbn);
 
-  if (book) {
-    return res.json(book);
-    } else {
-        return res.status(404).json({ message: "Book not found" });
+        if (book) {
+            return res.json(book);
+        } else {
+            return res.status(404).json({ message: "Book not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching book" });
     }
-    });
+});
   
-// Get book details based on author
-public_users.get('/author/:author',function (req, res) {
-  //Retrieve the author parameter from the request URL and send book details
+// Get book details based on author (with async/await)
+public_users.get('/author/:author', async (req, res) => {
+  try {
+    //Retrieve the author parameter from the request URL and send book details
   const author = req.params.author;
 
   // Find book by searching through all books
@@ -84,12 +93,16 @@ public_users.get('/author/:author',function (req, res) {
     } else {
         return res.status(404).json({ message: "Book not found" });
     }
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching book" });
+    }
     });
 
 
-// Get all books based on title
-public_users.get('/title/:title',function (req, res) {
-  //Retrieve the title parameter from the request URL and send book details
+// Get all books based on title (with async/await)
+public_users.get('/title/:title', async (req, res) => {
+  try {
+    //Retrieve the title parameter from the request URL and send book details
   const title = req.params.title;
 
   // Find book by searching through all books
@@ -101,6 +114,9 @@ public_users.get('/title/:title',function (req, res) {
     return res.json(book);
     } else {
         return res.status(404).json({ message: "Book not found" });
+    }
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching book" });
     }
     });
 
