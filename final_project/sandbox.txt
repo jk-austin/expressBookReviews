@@ -1,2 +1,15 @@
 GET books: 
 https://jessekorff-5000.theianext-1-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/
+
+/register OR /customer/login
+{
+  "username": "michaelJackson",
+  "password": "BillieJean"
+}
+
+PUT at customer/auth/review/123456789
+{
+    "review": "This book is amazing, I couldn't stop reading it"
+}
+
+DELETE at customer/auth/delete/123456789
